@@ -1,0 +1,112 @@
+<!-- d:\Project\index.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Furry ID 展示页</title>
+    <style>
+        body {
+            width: 475px;
+            height: 767px;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, #e0f7fa, #80deea);
+            font-family: '微软雅黑', Arial, sans-serif;
+            z-index: 1;
+        } 
+        
+        .content-container {
+            position: relative;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 新增结构样式 */
+        .id-section {
+            font-size: 10px;
+            color: #808080;
+            margin-bottom: 10px;
+        }
+        
+        .desc-section {
+            font-size: 16px;
+            color: #263238;
+            margin-bottom: 8px;
+        }
+        
+        .name-section {
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+        
+        .img-container {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .img-container img {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="background-decoration"></div>
+
+    <!-- 内容容器 -->
+    <div class="content-container">
+        <div class="name-section" id="name">加载中...</div>
+        <div class="desc-section" id="description">加载中...</div>
+        <div class="id-section">FurryID: <span id="furryId">加载中...</span></div>
+        <div class="img-container">
+            <img id="profileImage" src="https://furryfurryhub.cn/images/default-intro-pic.png" alt="加载中...">
+        </div>
+    </div>
+
+    <!-- JavaScript 动态渲染逻辑 -->
+    <script>
+        function sanitizeInput(input) {
+            return input.replace(/[&<>"'`]/g, (match) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;',
+                '`': '&#x60;'
+            }[match]));
+        }
+
+        function getParameterByName(name) {
+            name = name.replace(/[[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const furryIdParam = getParameterByName('furryid') || '加载失败';
+            document.getElementById('furryId').textContent = sanitizeInput(furryIdParam);
+
+            const descParam = getParameterByName('desc') || '加载失败';
+            document.getElementById('description').textContent = sanitizeInput(descParam);
+
+            const nameParam = getParameterByName('name') || '加载失败';
+            document.getElementById('name').textContent = sanitizeInput(nameParam);
+
+            const imgUrl = getParameterByName('img');
+            if (imgUrl && (imgUrl.startsWith('http://') || imgUrl.startsWith('https://'))) {
+                document.getElementById('profileImage').src = imgUrl;
+            } else {
+                document.getElementById('profileImage').src = 'https://furryfurryhub.cn/images/default-intro-pic.png';
+            }
+        });
+    </script>
+</body>
+</html>

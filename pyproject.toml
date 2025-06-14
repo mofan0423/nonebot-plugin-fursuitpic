@@ -1,0 +1,14 @@
+[project]
+name = "nonebot_plugin_fursuitpic"
+version = "0.1.0"
+description = "接入 FurryHub X 追夜网络 的毛图API"
+authors = [
+    {name = "mofan", email = "admin@zhuiyenet.com"},
+]
+dependencies = ["nonebot2", "httpx", "nonebot-adapter-onebot", "nonebot-plugin-htmlrender"]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = false
